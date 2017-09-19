@@ -1,0 +1,755 @@
+MariaDB [(none)]>  tee C:/Users/717705/Downloads/log_exam2_c0717705.txt;
+MariaDB [(none)]>  tee C:\Users\717705\Downloads\log_exam2_c0717705.txt;
+ERROR: Unknown command '\U'.
+ERROR: Unknown command '\7'.
+ERROR: Unknown command '\D'.
+ERROR: Unknown command '\l'.
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db_test_dhruvi     |
+| examc0717705       |
+| information_schema |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [(none)]> use examc0717705;
+Database changed
+MariaDB [examc0717705]> show tables
+    -> ;
++------------------------+
+| Tables_in_examc0717705 |
++------------------------+
+| client                 |
+| employee               |
+| has_clearance          |
+| package                |
+| planet                 |
+| shipment               |
++------------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from client;
++---------------+-------------------+
+| AccountNumber | name              |
++---------------+-------------------+
+|             1 | Zapp Brannigan    |
+|             2 | Al Gore's Head    |
+|             3 | Barbados Slim     |
+|             4 | Ogden Wernstrom   |
+|             5 | Leo Wong          |
+|             6 | Lrrr              |
+|             7 | John Zoidberg     |
+|             8 | John Zoidfarb     |
+|             9 | Morbo             |
+|            10 | Judge John Whitey |
+|            11 | Calculon          |
++---------------+-------------------+
+11 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from employee;
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+| employeeID | name                     | position     | salary | remarks                                                                 |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+|          1 | Phillip J. Fry           | Delivery boy |   7500 | Not to be confused with the Philip J. Fry from Hovering Squid World 97a |
+|          2 | Turanga Leela            | Captain      |  10000 | NULL                                                                    |
+|          3 | Bender Bending Rodriguez | Robot        |   7500 | NULL                                                                    |
+|          4 | Hubert J. Farnsworth     | CEO          |  20000 | NULL                                                                    |
+|          5 | John A. Zoidberg         | Physician    |     25 | NULL                                                                    |
+|          6 | Amy Wong                 | Intern       |   5000 | NULL                                                                    |
+|          7 | Hermes Conrad            | Bureaucrat   |  10000 | NULL                                                                    |
+|          8 | Scruffy Scruffington     | Janitor      |   5000 | NULL                                                                    |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from has_clearance;
++----------+--------+-------+
+| employee | planet | level |
++----------+--------+-------+
+|        1 |      1 |     2 |
+|        1 |      2 |     3 |
+|        2 |      3 |     2 |
+|        2 |      4 |     4 |
+|        3 |      5 |     2 |
+|        3 |      6 |     4 |
+|        4 |      7 |     1 |
++----------+--------+-------+
+7 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from package;
++----------+---------------+-------------------+--------+--------+-----------+
+| shipment | packageNumber | contents          | weight | sender | recipient |
++----------+---------------+-------------------+--------+--------+-----------+
+|        1 |             1 | Undeclared        |      2 |      1 |         2 |
+|        2 |             1 | Undeclared        |     10 |      2 |         3 |
+|        2 |             2 | A bucket of krill |      2 |      8 |         7 |
+|        3 |             1 | Undeclared        |     15 |      3 |         4 |
+|        3 |             2 | Undeclared        |      3 |      5 |         1 |
+|        3 |             3 | Undeclared        |      7 |      2 |         3 |
+|        4 |             1 | Undeclared        |      5 |      4 |         5 |
+|        4 |             2 | Undeclared        |     27 |      1 |         2 |
+|        5 |             1 | Undeclared        |    100 |      5 |         1 |
++----------+---------------+-------------------+--------+--------+-----------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from planet;
++----------+------------------+------------------+
+| planetID | name             | coordinates      |
++----------+------------------+------------------+
+|        1 | Omicron Persei 8 |   89475345.35450 |
+|        2 | Decapod X        | 9999999999.99999 |
+|        3 | Mars             |   32435021.65468 |
+|        4 | Omega III        |   98432121.54640 |
+|        5 | Tarantulon VI    |  849842198.35465 |
+|        6 | Cannibalon       |  654321987.21654 |
+|        7 | DogDoo VII       | 9999999999.99999 |
+|        8 | Nintenduu 64     | 6543219894.16540 |
+|        9 | Amazonia         | 9999999999.99999 |
++----------+------------------+------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from shipment;
++------------+--------------+---------+--------+
+| shipmentID | shipmentDate | manager | planet |
++------------+--------------+---------+--------+
+|          1 | 3004-05-11   |       1 |      1 |
+|          2 | 3004-05-11   |       1 |      2 |
+|          3 | NULL         |       2 |      3 |
+|          4 | NULL         |       2 |      4 |
+|          5 | NULL         |       7 |      5 |
++------------+--------------+---------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select emp.name, shi.shipmentid, shi.shipmentDate, shi.manager, shi.planet from employee emp inner join shipment shi on emp.employeeid = shi.manager;
++----------------+------------+--------------+---------+--------+
+| name           | shipmentid | shipmentDate | manager | planet |
++----------------+------------+--------------+---------+--------+
+| Phillip J. Fry |          1 | 3004-05-11   |       1 |      1 |
+| Phillip J. Fry |          2 | 3004-05-11   |       1 |      2 |
+| Turanga Leela  |          3 | NULL         |       2 |      3 |
+| Turanga Leela  |          4 | NULL         |       2 |      4 |
+| Hermes Conrad  |          5 | NULL         |       7 |      5 |
++----------------+------------+--------------+---------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select emp.name, shi.shipmentid, shi.shipmentDate, shi.manager, shi.planet from employee emp inner join shipment shi on emp.employeeid = shi.manager where emp.name = 'Turanga Leela';
++---------------+------------+--------------+---------+--------+
+| name          | shipmentid | shipmentDate | manager | planet |
++---------------+------------+--------------+---------+--------+
+| Turanga Leela |          3 | NULL         |       2 |      3 |
+| Turanga Leela |          4 | NULL         |       2 |      4 |
++---------------+------------+--------------+---------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v1 as select emp.name, shi.shipmentid, shi.shipmentDate, shi.manager, shi.planet from employee emp inner join shipment shi on emp.employeeid = shi.manager where emp.name = 'Turanga Leela';
+Query OK, 0 rows affected (0.08 sec)
+
+MariaDB [examc0717705]> select * from v1;
++---------------+------------+--------------+---------+--------+
+| name          | shipmentid | shipmentDate | manager | planet |
++---------------+------------+--------------+---------+--------+
+| Turanga Leela |          3 | NULL         |       2 |      3 |
+| Turanga Leela |          4 | NULL         |       2 |      4 |
++---------------+------------+--------------+---------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select pck.shipment, pck.packageNumber, pck.contents, pck.weight, pck.sender, pck.recipient from client cli inner join package pck on cli.AccountNumber = pck.recipient in(1,5,6);
++----------+---------------+------------+--------+--------+-----------+
+| shipment | packageNumber | contents   | weight | sender | recipient |
++----------+---------------+------------+--------+--------+-----------+
+|        3 |             2 | Undeclared |      3 |      5 |         1 |
+|        4 |             1 | Undeclared |      5 |      4 |         5 |
+|        5 |             1 | Undeclared |    100 |      5 |         1 |
++----------+---------------+------------+--------+--------+-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v2 as select pck.shipment, pck.packageNumber, pck.contents, pck.weight, pck.sender, pck.recipient from client cli inner join package pck on cli.AccountNumber = pck.recipient in(1,5,6);
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [examc0717705]> select * from v2;
++----------+---------------+------------+--------+--------+-----------+
+| shipment | packageNumber | contents   | weight | sender | recipient |
++----------+---------------+------------+--------+--------+-----------+
+|        3 |             2 | Undeclared |      3 |      5 |         1 |
+|        4 |             1 | Undeclared |      5 |      4 |         5 |
+|        5 |             1 | Undeclared |    100 |      5 |         1 |
++----------+---------------+------------+--------+--------+-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select emp.name, plt.name from has_clearance hcl inner join employee emp on hcl.employee = emp.employeeID inner join planet plt on hcl.planet = plt.planetid;
++--------------------------+------------------+
+| name                     | name             |
++--------------------------+------------------+
+| Phillip J. Fry           | Omicron Persei 8 |
+| Phillip J. Fry           | Decapod X        |
+| Turanga Leela            | Mars             |
+| Turanga Leela            | Omega III        |
+| Bender Bending Rodriguez | Tarantulon VI    |
+| Bender Bending Rodriguez | Cannibalon       |
+| Hubert J. Farnsworth     | DogDoo VII       |
++--------------------------+------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v3 as select emp.name, plt.name from has_clearance hcl inner join employee emp on hcl.employee = emp.employeeID inner join planet plt on hcl.planet = plt.planetid;
+ERROR 1060 (42S21): Duplicate column name 'name'
+MariaDB [examc0717705]> create view v3 as select emp.name as 'employee name', plt.name as 'planet name' from has_clearance hcl inner join employee emp on hcl.employee = emp.employeeID inner join planet plt on hcl.planet = plt.planetid;
+Query OK, 0 rows affected (0.08 sec)
+
+MariaDB [examc0717705]> select * from v3;
++--------------------------+------------------+
+| employee name            | planet name      |
++--------------------------+------------------+
+| Phillip J. Fry           | Omicron Persei 8 |
+| Phillip J. Fry           | Decapod X        |
+| Turanga Leela            | Mars             |
+| Turanga Leela            | Omega III        |
+| Bender Bending Rodriguez | Tarantulon VI    |
+| Bender Bending Rodriguez | Cannibalon       |
+| Hubert J. Farnsworth     | DogDoo VII       |
++--------------------------+------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select shi.shipmentDate, cli.accountnumber as sender, cli.accountnumber as receiver from package pck inner join client cli on pck.sender = cli.accountnumber and pck.receiver = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipments;
+ERROR 1054 (42S22): Unknown column 'pck.receiver' in 'on clause'
+MariaDB [examc0717705]> select shi.shipmentDate, cli.accountnumber as sender, cli.accountnumber as receiver from package pck inner join client cli on pck.sender = cli.accountnumber and pck.recipient = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipments;
+ERROR 1054 (42S22): Unknown column 'shi.shipments' in 'on clause'
+MariaDB [examc0717705]> select shi.shipmentDate, cli.accountnumber as sender, cli.accountnumber as receiver from package pck inner join client cli on pck.sender = cli.accountnumber and pck.recipient = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipment;
+ERROR 1054 (42S22): Unknown column 'shi.shipment' in 'on clause'
+MariaDB [examc0717705]> select shi.shipmentDate, cli.accountnumber as sender, cli.accountnumber as receiver from package pck inner join client cli on pck.sender = cli.accountnumber and pck.recipient = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
+Empty set (0.00 sec)
+
+MariaDB [examc0717705]> select * from shipment where planet = (select planetid from planet where name = 'mars' or name = 'amazonia');
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [examc0717705]> select * from shipment where planet in (select planetid from planet where name = 'mars' or name = 'amazonia');
++------------+--------------+---------+--------+
+| shipmentID | shipmentDate | manager | planet |
++------------+--------------+---------+--------+
+|          3 | NULL         |       2 |      3 |
++------------+--------------+---------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v5 as select * from shipment where planet in (select planetid from planet where name = 'mars' or name = 'amazonia');
+Query OK, 0 rows affected (0.05 sec)
+
+MariaDB [examc0717705]> select * from v5;
++------------+--------------+---------+--------+
+| shipmentID | shipmentDate | manager | planet |
++------------+--------------+---------+--------+
+|          3 | NULL         |       2 |      3 |
++------------+--------------+---------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [examc0717705]> select cli.name from package pck inner join client cli where pck.sender = cli.accountnumber where pck.contents = 'Undeclared';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where pck.contents = 'Undeclared'' at line 1
+MariaDB [examc0717705]> select cli.name from package pck inner join client cli on pck.sender = cli.accountnumber where pck.contents = 'Undeclared';
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Leo Wong        |
+| Al Gore's Head  |
+| Ogden Wernstrom |
+| Zapp Brannigan  |
+| Leo Wong        |
++-----------------+
+8 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select DISTINCT(cli.name) from package pck inner join client cli on pck.sender = cli.accountnumber where pck.contents = 'Undeclared';
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Leo Wong        |
+| Ogden Wernstrom |
++-----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v6 as select DISTINCT(cli.name) from package pck inner join client cli on pck.sender = cli.accountnumber where pck.contents = 'Undeclared';
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [examc0717705]> select * from v6;
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Leo Wong        |
+| Ogden Wernstrom |
++-----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select * from employee where salary like('%____%');
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+| employeeID | name                     | position     | salary | remarks                                                                 |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+|          1 | Phillip J. Fry           | Delivery boy |   7500 | Not to be confused with the Philip J. Fry from Hovering Squid World 97a |
+|          2 | Turanga Leela            | Captain      |  10000 | NULL                                                                    |
+|          3 | Bender Bending Rodriguez | Robot        |   7500 | NULL                                                                    |
+|          4 | Hubert J. Farnsworth     | CEO          |  20000 | NULL                                                                    |
+|          6 | Amy Wong                 | Intern       |   5000 | NULL                                                                    |
+|          7 | Hermes Conrad            | Bureaucrat   |  10000 | NULL                                                                    |
+|          8 | Scruffy Scruffington     | Janitor      |   5000 | NULL                                                                    |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v7 as select * from employee where salary like('%____%');
+Query OK, 0 rows affected (0.05 sec)
+
+MariaDB [examc0717705]> select * from v7;
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+| employeeID | name                     | position     | salary | remarks                                                                 |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+|          1 | Phillip J. Fry           | Delivery boy |   7500 | Not to be confused with the Philip J. Fry from Hovering Squid World 97a |
+|          2 | Turanga Leela            | Captain      |  10000 | NULL                                                                    |
+|          3 | Bender Bending Rodriguez | Robot        |   7500 | NULL                                                                    |
+|          4 | Hubert J. Farnsworth     | CEO          |  20000 | NULL                                                                    |
+|          6 | Amy Wong                 | Intern       |   5000 | NULL                                                                    |
+|          7 | Hermes Conrad            | Bureaucrat   |  10000 | NULL                                                                    |
+|          8 | Scruffy Scruffington     | Janitor      |   5000 | NULL                                                                    |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> update employee set remarks = 'remarked' where remarks is null;
+Query OK, 7 rows affected (0.06 sec)
+Rows matched: 7  Changed: 7  Warnings: 0
+
+MariaDB [examc0717705]> select * from employee;
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+| employeeID | name                     | position     | salary | remarks                                                                 |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+|          1 | Phillip J. Fry           | Delivery boy |   7500 | Not to be confused with the Philip J. Fry from Hovering Squid World 97a |
+|          2 | Turanga Leela            | Captain      |  10000 | remarked                                                                |
+|          3 | Bender Bending Rodriguez | Robot        |   7500 | remarked                                                                |
+|          4 | Hubert J. Farnsworth     | CEO          |  20000 | remarked                                                                |
+|          5 | John A. Zoidberg         | Physician    |     25 | remarked                                                                |
+|          6 | Amy Wong                 | Intern       |   5000 | remarked                                                                |
+|          7 | Hermes Conrad            | Bureaucrat   |  10000 | remarked                                                                |
+|          8 | Scruffy Scruffington     | Janitor      |   5000 | remarked                                                                |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select name as 'Delivery Boy' salary as Earns from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'salary as Earns from employee' at line 1
+MariaDB [examc0717705]> select name as 'Delivery Boy' salary as 'Earns' from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'salary as 'Earns' from employee' at line 1
+MariaDB [examc0717705]> select name as 'Delivery Boy', salary as 'Earns' from employee;
++--------------------------+-------+
+| Delivery Boy             | Earns |
++--------------------------+-------+
+| Phillip J. Fry           |  7500 |
+| Turanga Leela            | 10000 |
+| Bender Bending Rodriguez |  7500 |
+| Hubert J. Farnsworth     | 20000 |
+| John A. Zoidberg         |    25 |
+| Amy Wong                 |  5000 |
+| Hermes Conrad            | 10000 |
+| Scruffy Scruffington     |  5000 |
++--------------------------+-------+
+8 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v9 as  select name as 'Delivery Boy', salary as 'Earns' from employee;
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [examc0717705]> select * from v9;
++--------------------------+-------+
+| Delivery Boy             | Earns |
++--------------------------+-------+
+| Phillip J. Fry           |  7500 |
+| Turanga Leela            | 10000 |
+| Bender Bending Rodriguez |  7500 |
+| Hubert J. Farnsworth     | 20000 |
+| John A. Zoidberg         |    25 |
+| Amy Wong                 |  5000 |
+| Hermes Conrad            | 10000 |
+| Scruffy Scruffington     |  5000 |
++--------------------------+-------+
+8 rows in set (0.01 sec)
+
+MariaDB [examc0717705]> update shipment set shipmentDate = current_date where shipmentDate is null;
+Query OK, 3 rows affected (0.06 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MariaDB [examc0717705]> select * from shipment;;
++------------+--------------+---------+--------+
+| shipmentID | shipmentDate | manager | planet |
++------------+--------------+---------+--------+
+|          1 | 3004-05-11   |       1 |      1 |
+|          2 | 3004-05-11   |       1 |      2 |
+|          3 | 2017-09-18   |       2 |      3 |
+|          4 | 2017-09-18   |       2 |      4 |
+|          5 | 2017-09-18   |       7 |      5 |
++------------+--------------+---------+--------+
+5 rows in set (0.00 sec)
+
+ERROR: No query specified
+
+MariaDB [examc0717705]> select * from package pck inner join client cli on pck.sender = cli.accountnumber and pck.recipient = cli.accountnumber;
+Empty set (0.00 sec)
+
+MariaDB [examc0717705]> select cli.name as 'sender', cli.name as 'recipient' from package pck inner join client cli on pck.sender = cli.accountnumber as 'sender' and pck.recipient = cli.accountnumber as 'recipient';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'as 'sender' and pck.recipient = cli.accountnumber as 'recipient'' at line 1
+MariaDB [examc0717705]> select name from client where client id in (select sender from package) and A4 : select name from client where client id in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'id in (select sender from package) and A4 : select name from client where client' at line 1
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) and A4 : select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ': select name from client where accountnumber in (select recipient from package)' at line 1
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) and select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'select name from client where accountnumber in (select recipient from package)' at line 1
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package);
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Ogden Wernstrom |
+| Leo Wong        |
+| John Zoidfarb   |
++-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select name from client where accountnumber in (select recipient from package);
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Ogden Wernstrom |
+| Leo Wong        |
+| John Zoidberg   |
++-----------------+
+6 rows in set (0.01 sec)
+
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package);
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Ogden Wernstrom |
+| Leo Wong        |
+| John Zoidfarb   |
++-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) concate  select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'concate  select name from client where accountnumber in (select recipient from p' at line 1
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) concat  select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'concat  select name from client where accountnumber in (select recipient from pa' at line 1
+MariaDB [examc0717705]> help
+
+General information about MariaDB can be found at
+http://mariadb.org
+
+List of all MySQL commands:
+Note that all text commands must be first on line and end with ';'
+?         (\?) Synonym for `help'.
+clear     (\c) Clear the current input statement.
+connect   (\r) Reconnect to the server. Optional arguments are db and host.
+delimiter (\d) Set statement delimiter.
+ego       (\G) Send command to mysql server, display result vertically.
+exit      (\q) Exit mysql. Same as quit.
+go        (\g) Send command to mysql server.
+help      (\h) Display this help.
+notee     (\t) Don't write into outfile.
+print     (\p) Print current command.
+prompt    (\R) Change your mysql prompt.
+quit      (\q) Quit mysql.
+rehash    (\#) Rebuild completion hash.
+source    (\.) Execute an SQL script file. Takes a file name as an argument.
+status    (\s) Get status information from the server.
+tee       (\T) Set outfile [to_outfile]. Append everything into given outfile.
+use       (\u) Use another database. Takes database name as argument.
+charset   (\C) Switch to another charset. Might be needed for processing binlog with multi-byte charsets.
+warnings  (\W) Show warnings after every statement.
+nowarning (\w) Don't show warnings after every statement.
+
+For server side help, type 'help contents'
+
+MariaDB [examc0717705]> SELECT DATE_FORMAT("2017-06-15", "%M, %d %y");
++----------------------------------------+
+| DATE_FORMAT("2017-06-15", "%M, %d %y") |
++----------------------------------------+
+| June, 15 17                            |
++----------------------------------------+
+1 row in set (0.03 sec)
+
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'select name from client where accountnumber in (select recipient from package)' at line 1
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package), select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' select name from client where accountnumber in (select recipient from package)' at line 1
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> 
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) concat  select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'concat  select name from client where accountnumber in (select recipient from pa' at line 1
+MariaDB [examc0717705]> select name from client where accountnumber in (select sender from package) concat  select name from client where accountnumber in (select recipient from package);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'concat  select name from client where accountnumber in (select recipient from pa' at line 1
+MariaDB [examc0717705]> MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db_test_dhruvi     |
+| examc0717705       |
+| information_schema |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [(none)]> use examc0717705;
+Database changed
+MariaDB [examc0717705]> select cli.name as 'sender', cli.name as recipient, shi.shipmentDate from package pck inner join pck.sender = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid' at line 1
+MariaDB [examc0717705]> select cli.name as 'sender', cli.name as recipient, shi.shipmentDate from package pck inner join client cli pck.sender = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'pck.sender = cli.accountnumber inner join shipment shi on pck.shipment = shi.shi' at line 1
+MariaDB [examc0717705]> select cli.name as 'sender', cli.name as recipient, shi.shipmentDate from package pck inner join client cli on pck.sender = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
++-----------------+-----------------+--------------+
+| sender          | recipient       | shipmentDate |
++-----------------+-----------------+--------------+
+| Zapp Brannigan  | Zapp Brannigan  | 3004-05-11   |
+| Al Gore's Head  | Al Gore's Head  | 3004-05-11   |
+| John Zoidfarb   | John Zoidfarb   | 3004-05-11   |
+| Barbados Slim   | Barbados Slim   | 2017-09-18   |
+| Leo Wong        | Leo Wong        | 2017-09-18   |
+| Al Gore's Head  | Al Gore's Head  | 2017-09-18   |
+| Ogden Wernstrom | Ogden Wernstrom | 2017-09-18   |
+| Zapp Brannigan  | Zapp Brannigan  | 2017-09-18   |
+| Leo Wong        | Leo Wong        | 2017-09-18   |
++-----------------+-----------------+--------------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select cli.name as 'sender', cli.name as recipient, DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") from package pck inner join client cli on pck.sender = cli.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
++-----------------+-----------------+----------------------------------------------+
+| sender          | recipient       | DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") |
++-----------------+-----------------+----------------------------------------------+
+| Zapp Brannigan  | Zapp Brannigan  | May, 11 2004                                 |
+| Al Gore's Head  | Al Gore's Head  | May, 11 2004                                 |
+| John Zoidfarb   | John Zoidfarb   | May, 11 2004                                 |
+| Barbados Slim   | Barbados Slim   | September, 18 2017                           |
+| Leo Wong        | Leo Wong        | September, 18 2017                           |
+| Al Gore's Head  | Al Gore's Head  | September, 18 2017                           |
+| Ogden Wernstrom | Ogden Wernstrom | September, 18 2017                           |
+| Zapp Brannigan  | Zapp Brannigan  | September, 18 2017                           |
+| Leo Wong        | Leo Wong        | September, 18 2017                           |
++-----------------+-----------------+----------------------------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select cli.name as 'sender', cli2.name as recipient, DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") from package pck inner join client cli on pck.sender = cli.accountnumber inner join client cli2 on pck.recipient = cli2.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
++-----------------+-----------------+----------------------------------------------+
+| sender          | recipient       | DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") |
++-----------------+-----------------+----------------------------------------------+
+| Zapp Brannigan  | Al Gore's Head  | May, 11 2004                                 |
+| Al Gore's Head  | Barbados Slim   | May, 11 2004                                 |
+| John Zoidfarb   | John Zoidberg   | May, 11 2004                                 |
+| Barbados Slim   | Ogden Wernstrom | September, 18 2017                           |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017                           |
+| Al Gore's Head  | Barbados Slim   | September, 18 2017                           |
+| Ogden Wernstrom | Leo Wong        | September, 18 2017                           |
+| Zapp Brannigan  | Al Gore's Head  | September, 18 2017                           |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017                           |
++-----------------+-----------------+----------------------------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select cli.name as 'sender', cli2.name as recipient, DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") as 'Date' from package pck inner join client cli on pck.sender = cli.accountnumber inner join client cli2 on pck.recipient = cli2.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
++-----------------+-----------------+--------------------+
+| sender          | recipient       | Date               |
++-----------------+-----------------+--------------------+
+| Zapp Brannigan  | Al Gore's Head  | May, 11 2004       |
+| Al Gore's Head  | Barbados Slim   | May, 11 2004       |
+| John Zoidfarb   | John Zoidberg   | May, 11 2004       |
+| Barbados Slim   | Ogden Wernstrom | September, 18 2017 |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017 |
+| Al Gore's Head  | Barbados Slim   | September, 18 2017 |
+| Ogden Wernstrom | Leo Wong        | September, 18 2017 |
+| Zapp Brannigan  | Al Gore's Head  | September, 18 2017 |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017 |
++-----------------+-----------------+--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> create view v4 as select cli.name as 'sender', cli2.name as recipient, DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") as 'Date' from package pck inner join client cli on pck.sender = cli.accountnumber inner join client cli2 on pck.recipient = cli2.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
+Query OK, 0 rows affected (0.02 sec)
+
+MariaDB [examc0717705]> select * from v4;
++-----------------+-----------------+--------------------+
+| sender          | recipient       | Date               |
++-----------------+-----------------+--------------------+
+| Zapp Brannigan  | Al Gore's Head  | May, 11 2004       |
+| Al Gore's Head  | Barbados Slim   | May, 11 2004       |
+| John Zoidfarb   | John Zoidberg   | May, 11 2004       |
+| Barbados Slim   | Ogden Wernstrom | September, 18 2017 |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017 |
+| Al Gore's Head  | Barbados Slim   | September, 18 2017 |
+| Ogden Wernstrom | Leo Wong        | September, 18 2017 |
+| Zapp Brannigan  | Al Gore's Head  | September, 18 2017 |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017 |
++-----------------+-----------------+--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> select name, format(salary,'#,###.##') from employee;
++--------------------------+---------------------------+
+| name                     | format(salary,'#,###.##') |
++--------------------------+---------------------------+
+| Phillip J. Fry           | 7,500                     |
+| Turanga Leela            | 10,000                    |
+| Bender Bending Rodriguez | 7,500                     |
+| Hubert J. Farnsworth     | 20,000                    |
+| John A. Zoidberg         | 25                        |
+| Amy Wong                 | 5,000                     |
+| Hermes Conrad            | 10,000                    |
+| Scruffy Scruffington     | 5,000                     |
++--------------------------+---------------------------+
+8 rows in set, 8 warnings (0.00 sec)
+
+MariaDB [examc0717705]> select name, concat ('$',format(salary,'#,###.##')) from employee;
++--------------------------+----------------------------------------+
+| name                     | concat ('$',format(salary,'#,###.##')) |
++--------------------------+----------------------------------------+
+| Phillip J. Fry           | $7,500                                 |
+| Turanga Leela            | $10,000                                |
+| Bender Bending Rodriguez | $7,500                                 |
+| Hubert J. Farnsworth     | $20,000                                |
+| John A. Zoidberg         | $25                                    |
+| Amy Wong                 | $5,000                                 |
+| Hermes Conrad            | $10,000                                |
+| Scruffy Scruffington     | $5,000                                 |
++--------------------------+----------------------------------------+
+8 rows in set, 8 warnings (0.00 sec)
+
+MariaDB [examc0717705]> drop view v7;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [examc0717705]> create view v7 as select name, concat ('$',format(salary,'#,###.##')) from employee;
+Query OK, 0 rows affected (0.05 sec)
+
+MariaDB [examc0717705]> select * from v7;
++--------------------------+----------------------------------------+
+| name                     | concat ('$',format(salary,'#,###.##')) |
++--------------------------+----------------------------------------+
+| Phillip J. Fry           | $7,500                                 |
+| Turanga Leela            | $10,000                                |
+| Bender Bending Rodriguez | $7,500                                 |
+| Hubert J. Farnsworth     | $20,000                                |
+| John A. Zoidberg         | $25                                    |
+| Amy Wong                 | $5,000                                 |
+| Hermes Conrad            | $10,000                                |
+| Scruffy Scruffington     | $5,000                                 |
++--------------------------+----------------------------------------+
+8 rows in set, 8 warnings (0.00 sec)
+
+MariaDB [examc0717705]> select name as 'Delivery Boy', concat('$',format(salary,'#,###.##'),'/month'), as 'Earns' from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'as 'Earns' from employee' at line 1
+MariaDB [examc0717705]> select name as 'Delivery Boy', concat('$',format(salary,'#,###.##'),'/month') as 'Earns' from employee;
++--------------------------+---------------+
+| Delivery Boy             | Earns         |
++--------------------------+---------------+
+| Phillip J. Fry           | $7,500/month  |
+| Turanga Leela            | $10,000/month |
+| Bender Bending Rodriguez | $7,500/month  |
+| Hubert J. Farnsworth     | $20,000/month |
+| John A. Zoidberg         | $25/month     |
+| Amy Wong                 | $5,000/month  |
+| Hermes Conrad            | $10,000/month |
+| Scruffy Scruffington     | $5,000/month  |
++--------------------------+---------------+
+8 rows in set, 8 warnings (0.00 sec)
+
+MariaDB [examc0717705]> select * from v9;
++--------------------------+-------+
+| Delivery Boy             | Earns |
++--------------------------+-------+
+| Phillip J. Fry           |  7500 |
+| Turanga Leela            | 10000 |
+| Bender Bending Rodriguez |  7500 |
+| Hubert J. Farnsworth     | 20000 |
+| John A. Zoidberg         |    25 |
+| Amy Wong                 |  5000 |
+| Hermes Conrad            | 10000 |
+| Scruffy Scruffington     |  5000 |
++--------------------------+-------+
+8 rows in set (0.00 sec)
+
+MariaDB [examc0717705]> drop view v9;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [examc0717705]> create view v9 as select name as 'Delivery Boy', concat('$',format(salary,'#,###.##'),'/month') as 'Earns' from employee;
+Query OK, 0 rows affected (0.09 sec)
+
+MariaDB [examc0717705]> select * from v9;
++--------------------------+---------------+
+| Delivery Boy             | Earns         |
++--------------------------+---------------+
+| Phillip J. Fry           | $7,500/month  |
+| Turanga Leela            | $10,000/month |
+| Bender Bending Rodriguez | $7,500/month  |
+| Hubert J. Farnsworth     | $20,000/month |
+| John A. Zoidberg         | $25/month     |
+| Amy Wong                 | $5,000/month  |
+| Hermes Conrad            | $10,000/month |
+| Scruffy Scruffington     | $5,000/month  |
++--------------------------+---------------+
+8 rows in set, 8 warnings (0.00 sec)
+
