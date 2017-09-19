@@ -2,6 +2,6 @@
 Create query
 
 
-tee C:/Users/719847/Downloads/LOG_Exam2_c0719847.txt;
+tee C:/Users/717705/Downloads/LOG_Exam2_c0717705.txt;
 
 Database name Exam_Rollnumber
