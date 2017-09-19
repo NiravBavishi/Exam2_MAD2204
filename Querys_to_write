@@ -110,12 +110,172 @@ INSERT INTO Package VALUES(5, 1, 'Undeclared', 100.0, 5, 1);
 Create all select queries as VIEW Object and name it as v1...vn
 
 Q1) Display employess who name is "Turanga Leela" along with its shipment dertails.
+
+QUERY : create view v1 as select emp.name, shi.shipmentid, shi.shipmentDate, shi.manager, shi.planet from employee emp inner join shipment shi on emp.employeeid = shi.manager where emp.name = 'Turanga Leela';
+
+Result: select * from v1;
++---------------+------------+--------------+---------+--------+
+| name          | shipmentid | shipmentDate | manager | planet |
++---------------+------------+--------------+---------+--------+
+| Turanga Leela |          3 | NULL         |       2 |      3 |
+| Turanga Leela |          4 | NULL         |       2 |      4 |
++---------------+------------+--------------+---------+--------+
+
+
+
 Q2) List those packages which are intented for client whose ids are 1,5 or 6
+
+QUERY : create view v2 as select pck.shipment, pck.packageNumber, pck.contents, pck.weight, pck.sender, pck.recipient from client cli inner join package pck on cli.AccountNumber = pck.recipient in(1,5,6);
+
+Results :  select * from v2;
++----------+---------------+------------+--------+--------+-----------+
+| shipment | packageNumber | contents   | weight | sender | recipient |
++----------+---------------+------------+--------+--------+-----------+
+|        3 |             2 | Undeclared |      3 |      5 |         1 |
+|        4 |             1 | Undeclared |      5 |      4 |         5 |
+|        5 |             1 | Undeclared |    100 |      5 |         1 |
++----------+---------------+------------+--------+--------+-----------+
+
+
+
 Q3) Display name of emnployee and plant which are cleared
+
+QUERY : create view v3 as select emp.name as 'employee name', plt.name as 'planet name' from has_clearance hcl inner join employee emp on hcl.employee = emp.employeeID inner join planet plt on hcl.planet = plt.planetid;
+
+Results : select * from v3;
++--------------------------+------------------+
+| employee name            | planet name      |
++--------------------------+------------------+
+| Phillip J. Fry           | Omicron Persei 8 |
+| Phillip J. Fry           | Decapod X        |
+| Turanga Leela            | Mars             |
+| Turanga Leela            | Omega III        |
+| Bender Bending Rodriguez | Tarantulon VI    |
+| Bender Bending Rodriguez | Cannibalon       |
+| Hubert J. Farnsworth     | DogDoo VII       |
++--------------------------+------------------+
+
+
+
 Q4) Display details of shipment data (Month, Day YYYY), sender and receiver name whose package weight is between 5 and 10
+
+QUERY : create view v4 as select cli.name as 'sender', cli2.name as recipient, DATE_FORMAT(shi.shipmentdate, "%M, %d 20%y") as 'Date' from package pck inner join client cli on pck.sender = cli.accountnumber inner join client cli2 on pck.recipient = cli2.accountnumber inner join shipment shi on pck.shipment = shi.shipmentid;
+
+Results : select * from v4;
++-----------------+-----------------+--------------------+
+| sender          | recipient       | Date               |
++-----------------+-----------------+--------------------+
+| Zapp Brannigan  | Al Gore's Head  | May, 11 2004       |
+| Al Gore's Head  | Barbados Slim   | May, 11 2004       |
+| John Zoidfarb   | John Zoidberg   | May, 11 2004       |
+| Barbados Slim   | Ogden Wernstrom | September, 18 2017 |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017 |
+| Al Gore's Head  | Barbados Slim   | September, 18 2017 |
+| Ogden Wernstrom | Leo Wong        | September, 18 2017 |
+| Zapp Brannigan  | Al Gore's Head  | September, 18 2017 |
+| Leo Wong        | Zapp Brannigan  | September, 18 2017 |
++-----------------+-----------------+--------------------+
+9 rows in set (0.00 sec)
+
+
 Q5) Give details of those shipments which are currently processed at plant name "Mars" or "Amazonia"
+
+QUERY : create view v5 as select * from shipment where planet in (select planetid from planet where name = 'mars' or name = 'amazonia');
+
+Results : select * from v5;
++------------+--------------+---------+--------+
+| shipmentID | shipmentDate | manager | planet |
++------------+--------------+---------+--------+
+|          3 | NULL         |       2 |      3 |
++------------+--------------+---------+--------+
+
+
 Q6) List client names whose pakages are "Undeclared"
+
+QUERY : create view v6 as select DISTINCT(cli.name) from package pck inner join client cli on pck.sender = cli.accountnumber where pck.contents = 'Undeclared';
+
+Results : select * from v6;
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Leo Wong        |
+| Ogden Wernstrom |
++-----------------+
+
+
 Q7) Display those employees details containing salary format as $2,700.00
+
+QUERY : create view v7 as select name, concat ('$',format(salary,'#,###.##')) from employee;
+
+Results : select * from v7;
++--------------------------+----------------------------------------+
+| name                     | concat ('$',format(salary,'#,###.##')) |
++--------------------------+----------------------------------------+
+| Phillip J. Fry           | $7,500                                 |
+| Turanga Leela            | $10,000                                |
+| Bender Bending Rodriguez | $7,500                                 |
+| Hubert J. Farnsworth     | $20,000                                |
+| John A. Zoidberg         | $25                                    |
+| Amy Wong                 | $5,000                                 |
+| Hermes Conrad            | $10,000                                |
+| Scruffy Scruffington     | $5,000                                 |
++--------------------------+----------------------------------------+
+8 rows in set, 8 warnings (0.00 sec)
+
+
 Q8) Write query to Add remarks of those employee which are never remarked before.
+
+QUERY : update employee set remarks = 'remarked' where remarks is null;
+
+Results : select * from employee;
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+| employeeID | name                     | position     | salary | remarks                                                                 |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+|          1 | Phillip J. Fry           | Delivery boy |   7500 | Not to be confused with the Philip J. Fry from Hovering Squid World 97a |
+|          2 | Turanga Leela            | Captain      |  10000 | remarked                                                                |
+|          3 | Bender Bending Rodriguez | Robot        |   7500 | remarked                                                                |
+|          4 | Hubert J. Farnsworth     | CEO          |  20000 | remarked                                                                |
+|          5 | John A. Zoidberg         | Physician    |     25 | remarked                                                                |
+|          6 | Amy Wong                 | Intern       |   5000 | remarked                                                                |
+|          7 | Hermes Conrad            | Bureaucrat   |  10000 | remarked                                                                |
+|          8 | Scruffy Scruffington     | Janitor      |   5000 | remarked                                                                |
++------------+--------------------------+--------------+--------+-------------------------------------------------------------------------+
+8 rows in set (0.00 sec)
+
 Q9) Display employee details in following format "Phillip J. Fry is Delivery boy and earns $7,500.00/month"
+
+QUERY :  create view v9 as select name as 'Delivery Boy', concat('$',format(salary,'#,###.##'),'/month') as 'Earns' from employee;
+
+Results :  select * from v9;
++--------------------------+---------------+
+| Delivery Boy             | Earns         |
++--------------------------+---------------+
+| Phillip J. Fry           | $7,500/month  |
+| Turanga Leela            | $10,000/month |
+| Bender Bending Rodriguez | $7,500/month  |
+| Hubert J. Farnsworth     | $20,000/month |
+| John A. Zoidberg         | $25/month     |
+| Amy Wong                 | $5,000/month  |
+| Hermes Conrad            | $10,000/month |
+| Scruffy Scruffington     | $5,000/month  |
++--------------------------+---------------+
+8 rows in set, 8 warnings (0.00 sec)
+
 Q10) Update shipment date to current date for all data having NULL value
+
+QUERY : update shipment set shipmentDate = current_date where shipmentDate is null;
+
+Results : select * from shipment;;
++------------+--------------+---------+--------+
+| shipmentID | shipmentDate | manager | planet |
++------------+--------------+---------+--------+
+|          1 | 3004-05-11   |       1 |      1 |
+|          2 | 3004-05-11   |       1 |      2 |
+|          3 | 2017-09-18   |       2 |      3 |
+|          4 | 2017-09-18   |       2 |      4 |
+|          5 | 2017-09-18   |       7 |      5 |
++------------+--------------+---------+--------+
+5 rows in set (0.00 sec)
